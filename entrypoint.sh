@@ -91,6 +91,8 @@ sed -e "/^#/d"\
 echo /wwwroot/${Share_Path}/index.html
 cat /wwwroot/${Share_Path}/index.html
 
+export V2RAY_VMESS_AEAD_FORCED=false
+
 cd /xraybin
 ./xray run -c ./config.json &
 rm -rf /etc/nginx/sites-enabled/default

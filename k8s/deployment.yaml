@@ -17,7 +17,16 @@ spec:
         name: ray
         ports:
         - containerPort: 8080
+        volumeMounts:
+          - name: nginx-config-vol
+            mountPath: /etc/nginx/conf.d/ray.conf
+            subPath: nginx.conf
+          - name: xray-config-vol
+            mountPath: /xraybin/config.json
+            subPath: Xray.json
         env:
+        - name: V2RAY_VMESS_AEAD_FORCED
+          value: 'false'
         - name: PORT
           value: "8080"
         - name: ProxySite
@@ -32,3 +41,16 @@ spec:
           value: "$Vmess_Path"
         - name: Share_Path
           value: "$Share_Path"
+      volumes:
+        - name: nginx-config-vol
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        - name: xray-config-vol
+          configMap:
+            name: xray-config
+            items:
+              - key: Xray.json
+                path: Xray.json
